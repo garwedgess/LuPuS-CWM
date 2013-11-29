@@ -372,7 +372,7 @@ int nandroid_backup(const char* backup_path)
     }
 
     Volume* volume;
-    if (is_data_media())
+    if (is_data_media_volume_path(backup_path))
         volume = volume_for_path("/data");
     else
         volume = volume_for_path(backup_path);
@@ -912,7 +912,9 @@ int bu_main(int argc, char** argv) {
         }
 
         // fprintf(stderr, "%d %d %s\n", fd, STDOUT_FILENO, argv[3]);
-        return nandroid_dump(partition);
+        int ret = nandroid_dump(partition);
+        sleep(10);
+        return ret;
     }
     else if (strcmp(argv[2], "restore") == 0) {
         if (argc != 3) {
